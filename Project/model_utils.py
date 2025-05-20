@@ -5,10 +5,10 @@ from sentence_transformers import SentenceTransformer
 
 
 def load_model_and_index():
-    model = SentenceTransformer('all-MiniLM-L6-v2')
+    model = SentenceTransformer('all-MiniLM-L6-v2') #qwen3 0.8 1.6 3 7 8 14 15
 
     df = pd.read_csv("products.csv")
-    df["text"] = df["Name"] + " - " + df["Type"] + " - " + df["Gender"] + " - " + df["Material"] +  " - " +df["Brand"] +  " - " + str(df["Price"])
+    df["text"] = df["name"] + " - " + df["type"] + " - " + df["gender"] + " - " + df["material"] +  " - " +df["brand"] +  " - " + str(df["price"])
 
     # Embeddings
     embeddings = model.encode(df["text"].tolist(), convert_to_numpy=True)
@@ -31,10 +31,10 @@ def search_products(query, model, index, df, top_k=5):
     for idx in I[0]:
         item = df.iloc[idx]
         results.append({
-            "title": item["Name"],
-            "brand": item["Brand"],
-            "id": item["Page_number"],
-            "type": item["Type"],
+            "title": item["name"],
+            "brand": item["brand"],
+            "id": item["page_number"],
+            "type": item["type"],
             "score": float(D[0][list(I[0]).index(idx)])
         })
     print(results)
